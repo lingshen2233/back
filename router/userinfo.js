@@ -5,7 +5,12 @@ const userinfoHandler = require("../router_handle/userinfo");
 
 // 导入expressJoi
 const expressJoi = require("@escook/express-joi");
-const { name_limit, email_limit, password_limit } = require("../limit/user");
+const {
+  name_limit,
+  email_limit,
+  password_limit,
+  forgetPassword_limit,
+} = require("../limit/user");
 // 上传头像
 router.post("/uploadAvatar", userinfoHandler.uploadAvatar);
 // 绑定账号
@@ -28,5 +33,13 @@ router.post(
   expressJoi(password_limit),
   userinfoHandler.changePasswpord
 );
+// 验证账号与邮箱
+router.post("/verifyAccountAndEmail", userinfoHandler.verifyAccountAndEmail);
 
+// 登陆页面修改密码
+router.post(
+  "/changePasswordInLogin",
+  expressJoi(forgetPassword_limit),
+  userinfoHandler.changePasswordInLogin
+);
 module.exports = router;

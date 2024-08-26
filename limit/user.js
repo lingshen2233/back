@@ -41,3 +41,10 @@ exports.password_limit = {
     newPassword,
   },
 };
+
+exports.forgetPassword_limit = {
+  body: {
+    id,
+    newPassword,
+  },
+};

@@ -125,3 +125,52 @@ exports.changePasswpord = (req, res) => {
     });
   });
 };
+
+// 验证账户与邮箱是否一致 email account
+exports.verifyAccountAndEmail = (req, res) => {
+  const { account, email } = req.body;
+  const sql = "select email,id from users where account =?";
+  db.query(sql, account, (err, result) => {
+    if (err) return res.cc(err);
+    if (email == result[0].email) {
+      res.send({
+        status: 0,
+        id: result[0].id,
+        message: "查询成功",
+      });
+    } else {
+      res.send({
+        status: 1,
+        message: "查询失败",
+      });
+    }
+  });
+};
+
+// 登陆页面修改密码 newPassword id
+exports.changePasswordInLogin = (req, res) => {
+  req.body.newPassword = bcrypt.hashSync(req.body.newPassword, 10);
+  const sql = "update users set password =? where id=?";
+  db.query(sql, [req.body.newPassword, req.body.id], (err, result) => {
+    // 真奇怪，没有这个id 还没报错
+    // 所以像判断是否修改成功 我选择判断修改的行数改了没
+    /*     if (err) return res.cc(err);
+    res.send({
+      status: 0,
+      message: "更新成功",
+    });
+    return; */
+
+    if (result.affectedRows != 0) {
+      res.send({
+        status: 0,
+        message: "更新成功",
+      });
+    } else {
+      res.send({
+        status: 1,
+        message: "更新失败",
+      });
+    }
+  });
+};
