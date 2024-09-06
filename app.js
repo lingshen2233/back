@@ -26,6 +26,8 @@ app.use(bodyParser.json());
 
 const userRouter = require("./router/userinfo");
 app.use("/user", userRouter);
+const setRouter = require("./router/setting");
+app.use("/set", setRouter);
 app.use((req, res, next) => {
   // status=0成功 默认值为 1，方便处理失败情况
   res.cc = (err, status = 1) => {
@@ -50,9 +52,13 @@ const Joi = require("joi");
 app.use("/api", loginRouter);
 
 // 对不符合joi规则的情况进行报错
-app.use((req, res, next) => {
+app.use((err, req, res, next) => {
   // status=0成功 默认值为 1，方便处理失败情况
-  if (err instanceof Joi.ValidationError) return res.cc(err);
+  if (err instanceof Joi.ValidationError)
+    res.send({
+      status: 1,
+      message: "输入的数据不符合验证规则",
+    });
 });
 // 绑定和侦听端口
 app.listen(3009, () => {

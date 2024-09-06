@@ -42,4 +42,27 @@ router.post(
   expressJoi(forgetPassword_limit),
   userinfoHandler.changePasswordInLogin
 );
+// ----------------------用户管理
+// 添加管理员
+router.post("/createAdmin", userinfoHandler.createAdmin);
+// 获取管理员列表
+router.post("/getAdminList", userinfoHandler.getAdminList);
+//编辑管理员账号信息
+router.post("/editAdmin", userinfoHandler.editAdmin);
+// 对管理员取消授权
+router.post("/changeIdenfifyToUser", userinfoHandler.changeIdenfifyToUser);
+// 对用户进行赋权
+router.post("/changeIdenfifyToAdmin", userinfoHandler.changeIdenfifyToAdmin);
+// 通过账号对用户搜索
+router.post("/searchUser", userinfoHandler.searchUser);
+// 冻结用户
+router.post("/banUser", userinfoHandler.banUser);
+// 解冻用户
+router.post("/hotUser", userinfoHandler.hotUser);
+// 获取冻结列表
+router.post("/getBanList", userinfoHandler.getBanList);
+// 删除用户
+router.post("/deleteUser", userinfoHandler.deleteUser);
+// 通过部门对用户搜索 searchUserByDepartment 
+router.post("/searchUserByDepartment", userinfoHandler.searchUserByDepartment);
 module.exports = router;
